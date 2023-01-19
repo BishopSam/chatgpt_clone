@@ -1,8 +1,15 @@
+import 'package:chatgpt_clone/logic/bloc/app_bloc_bloc.dart';
 import 'package:chatgpt_clone/presentation/home_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:speech_to_text/speech_to_text.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Permission.microphone.request();
+  runApp(BlocProvider(
+      create: (context) => AppBloc(stt: SpeechToText()), child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -13,9 +20,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      theme: ThemeData.dark(),
       home: const HomeScreen(),
     );
   }
