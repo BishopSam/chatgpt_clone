@@ -7,17 +7,13 @@ part 'speech_state.dart';
 
 class SpeechCubit extends Cubit<SpeechState> {
   final SpeechToText stt;
-  String lastWords = "";
   SpeechCubit(this.stt) : super(const SpeechInitial());
 
   void decodeWords() async {
     await stt.initialize();
     await stt.listen(
       onResult: (result) {
-        if (result.finalResult == false) {}
-        lastWords = result.recognizedWords;
         emit(SpeechDecoded(words: result.recognizedWords));
-        
       },
     );
   }
