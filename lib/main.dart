@@ -1,4 +1,5 @@
-import 'package:chatgpt_clone/logic/bloc/app_bloc_bloc.dart';
+
+import 'package:chatgpt_clone/logic/cubit/speech_cubit.dart';
 import 'package:chatgpt_clone/presentation/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,7 +10,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Permission.microphone.request();
   runApp(BlocProvider(
-      create: (context) => AppBloc(stt: SpeechToText()), child: const MyApp()));
+      create: (context) => SpeechCubit(SpeechToText()), child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {

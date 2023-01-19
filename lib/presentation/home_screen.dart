@@ -1,4 +1,4 @@
-import 'package:chatgpt_clone/logic/bloc/app_bloc_bloc.dart';
+import 'package:chatgpt_clone/logic/cubit/speech_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -13,7 +13,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<AppBloc>().add(EnableSpeechEvent());
+    //context.read<SpeechCubit>().enableSpeech();
   }
 
   @override
@@ -35,21 +35,21 @@ class _HomeScreenState extends State<HomeScreen> {
               'Recognized words:',
               style: TextStyle(fontSize: 20.0),
             ),
-            BlocConsumer<AppBloc, SpeechState>(
+            BlocConsumer<SpeechCubit, SpeechState>(
               listener: (context, state) {
                 // if (state.isListening == true) {
                 //   context.read<AppBloc>().add(StopListeningEvent());
                 // }
               },
               builder: (context, state) {
-                debugPrint(state.toString());
+                debugPrint(state.lastWords);
 
                 return Flexible(
                   flex: 2,
                   fit: FlexFit.loose,
                   child: Container(
                     padding: const EdgeInsets.all(16),
-                    child: Text(state.lastWords ?? "ok"),
+                    child: Text(state.lastWords??"ok" ),
                   ),
                 );
               },
@@ -59,7 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          context.read<AppBloc>().add(StartListeningEvent());
+          context.read<SpeechCubit>().decodeWords();
         },
         child: const Icon(Icons.mic),
       ),
