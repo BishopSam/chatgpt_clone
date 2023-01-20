@@ -1,5 +1,7 @@
-import 'package:bloc/bloc.dart';
+
 import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_chatgpt_api/flutter_chatgpt_api.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 
@@ -7,13 +9,13 @@ part 'speech_state.dart';
 
 class SpeechCubit extends Cubit<SpeechState> {
   final SpeechToText stt;
-  SpeechCubit(this.stt) : super(const SpeechInitial());
+ 
+  SpeechCubit({required this.stt,}) : super(const SpeechInitial());
 
   void decodeWords() async {
-    await stt.initialize();
     await stt.listen(
       onResult: (result) {
-        emit(SpeechDecoded(words: result.recognizedWords));
+        emit(SpeechDecoded(lastWords: result.recognizedWords));
       },
     );
   }
@@ -22,7 +24,7 @@ class SpeechCubit extends Cubit<SpeechState> {
     var status = await Permission.microphone.status;
     if (status.isGranted) {
       final speechEnabled = await stt.initialize();
-      emit(SpeechEnabled(speech: speechEnabled));
+      emit(SpeechEnabled(speechEnabled: speechEnabled));
     } else if (status.isDenied) {
       await Permission.microphone.request();
     }

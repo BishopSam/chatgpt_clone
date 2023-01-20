@@ -6,26 +6,17 @@ abstract class SpeechState extends Equatable {
   final bool speechEnabled;
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [lastWords ?? "", speechEnabled];
 }
 
 class SpeechInitial extends SpeechState {
   const SpeechInitial() : super(lastWords: null, speechEnabled: false);
 }
+class SpeechEnabled extends SpeechState {
+  const SpeechEnabled({required super.speechEnabled}) : super(lastWords: null);
+}
 
 class SpeechDecoded extends SpeechState {
-final String words;
- const SpeechDecoded({required this.words}) : super(speechEnabled: true, lastWords: words);
-
- @override
-  List<Object> get props => [words];
+  const SpeechDecoded({required super.lastWords}) : super(speechEnabled: true);
 }
 
-class SpeechEnabled extends SpeechState {
-  final bool speech;
- const SpeechEnabled({required this.speech}) : super(lastWords: null, speechEnabled: speech);
-
-@override
-  List<Object> get props => [speech];
-  
-}
