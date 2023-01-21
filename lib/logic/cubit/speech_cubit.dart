@@ -1,4 +1,3 @@
-
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_chatgpt_api/flutter_chatgpt_api.dart';
@@ -9,13 +8,23 @@ part 'speech_state.dart';
 
 class SpeechCubit extends Cubit<SpeechState> {
   final SpeechToText stt;
- 
-  SpeechCubit({required this.stt,}) : super(const SpeechInitial());
+
+  SpeechCubit({
+    required this.stt,
+  }) : super(const SpeechInitial());
 
   void decodeWords() async {
     await stt.listen(
       onResult: (result) {
-        emit(SpeechDecoded(lastWords: result.recognizedWords));
+        if (result.finalResult) {
+          emit(SpeechDecoded(
+            lastWords: result.toFinal().recognizedWords,
+          ));
+        } else {
+          emit(const SpeechDecoded(
+            lastWords: "",
+          ));
+        }
       },
     );
   }
