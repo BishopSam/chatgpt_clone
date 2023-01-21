@@ -1,9 +1,10 @@
+import 'package:chatgpt_clone/data/repository/message_repo.dart';
+import 'package:chatgpt_clone/data/repository/open_ai_api.dart';
 import 'package:chatgpt_clone/logic/cubit/cubit/gpt_cubit.dart';
 import 'package:chatgpt_clone/logic/cubit/speech_cubit.dart';
 import 'package:chatgpt_clone/presentation/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_chatgpt_api/flutter_chatgpt_api.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 
@@ -21,10 +22,10 @@ void main() async {
       ),
       BlocProvider(
         create: (context) => GptCubit(
-            chatGPTApi: ChatGPTApi(
-          sessionToken: sessionToken,
-          clearanceToken: clearanceToken,
-        )),
+          messageRepository: MessageRepository(
+            api: OpenAiCompletionApi(apiKey),
+          ),
+        ),
       ),
     ],
     child: const MyApp(),
@@ -38,7 +39,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Voice Chat GPT',
       theme: ThemeData.dark(),
       home: const HomeScreen(),
     );
