@@ -32,7 +32,7 @@ migrate_working_dir/
 .pub/
 /build/
 
-/lib/data/token.dart
+token.dart
 
 # Symbolication related
 app.*.symbols
