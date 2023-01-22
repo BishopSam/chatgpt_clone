@@ -1,6 +1,7 @@
 import 'package:chatgpt_clone/logic/cubit/cubit/gpt_cubit.dart';
 import 'package:chatgpt_clone/logic/cubit/speech_cubit.dart';
 import 'package:chatgpt_clone/models/message.dart';
+import 'package:chatgpt_clone/presentation/widgets/message_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -20,73 +21,76 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          'Voice Chat GPT',
-          style: Theme.of(context).textTheme.titleLarge,
+    final size = MediaQuery.of(context).size;
+    return BlocListener<SpeechCubit, SpeechState>(
+      listener: (context, state) {
+        if (state is SpeechDecoded) {
+          if (state.lastWords?.isNotEmpty ?? false) {
+            context.read<GptCubit>().addMessage(Message(
+                message: state.lastWords ?? "", messageType: MessageType.user));
+          }
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: Text(
+            'Voice Chat GPT',
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
         ),
-      ),
-      body: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Text(
-              'Recognized words:',
-              style: TextStyle(fontSize: 20.0),
-            ),
-            BlocConsumer<SpeechCubit, SpeechState>(
-              listener: (context, state) {
-                if (state is SpeechDecoded) {
-                  context.read<GptCubit>().addMessage(Message(
-                      message: state.lastWords ?? "",
-                      messageType: MessageType.user));
-                }
-              },
-              builder: (context, state) {
-                // debugPrint(state.lastWords);
+        body: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              BlocBuilder<GptCubit, GptState>(
+                builder: (context, state) {
+                  debugPrint(state.messages?.toString());
+                  if (state.messages != null) {
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 20.0),
+                      child: SizedBox(
+                        height: size.height * 0.9,
+                        child: ListView.builder(
+                          itemCount: state.messages?.length,
+                          itemBuilder: (context, index) {
+                            final isLoading = state is GptLoading;
 
-                return Flexible(
-                  flex: 2,
-                  fit: FlexFit.loose,
-                  child: Container(
-                    padding: const EdgeInsets.all(16),
-                    child: Text(state.lastWords ?? "ok"),
-                  ),
-                );
-              },
-            ),
-            BlocBuilder<GptCubit, GptState>(
-              builder: (context, state) {
-                debugPrint(state.messages?.toString());
-                if (state.messages != null) {
-                  return SizedBox(
-                    height: 250,
-                   
-                    child: ListView.builder(
-                      itemCount: state.messages?.length,
-                      itemBuilder: (context, index) {
-                        return Text(state.messages?[index].message ?? "");
-                      },
-                    ),
-                  );
-                }
-                return const Text("Test");
-              },
-            ),
-          ],
+                            return MessageWidget(
+                                message: state.messages?[index],
+                                isLoading: isLoading);
+                          },
+                        ),
+                      ),
+                    );
+                  }
+                  return const Text("Test");
+                },
+              ),
+            ],
+          ),
         ),
+        floatingActionButton:
+            BlocBuilder<GptCubit, GptState>(builder: (context, state) {
+          debugPrint(state.toString());
+          return FloatingActionButton(
+            onPressed: state is GptLoading
+                ? null
+                : () {
+                    context.read<SpeechCubit>().decodeWords();
+                  },
+            child: state is GptLoading
+                ? CircularProgressIndicator(
+                    backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                    color: Colors.white,
+                  )
+                : const Icon(Icons.mic),
+          );
+        }),
+        floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          context.read<SpeechCubit>().decodeWords();
-        },
-        child: const Icon(Icons.mic),
-      ),
-      floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }

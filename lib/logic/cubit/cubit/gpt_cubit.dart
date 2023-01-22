@@ -3,7 +3,6 @@ import 'package:chatgpt_clone/data/repository/message_repo.dart';
 import 'package:chatgpt_clone/models/message.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_chatgpt_api/flutter_chatgpt_api.dart';
 
 part 'gpt_state.dart';
 
@@ -29,17 +28,14 @@ class GptCubit extends Cubit<GptState> {
       messages: state.messages,
     ));
 
-    try {
-      var newMessage = await messageRepository.getBotMessage(input);
-      _messages.add(
-          Message(message: newMessage.message, messageType: MessageType.bot));
-      emit(GptMessageSuccess(
-        messages: _messages,
-      ));
-    } catch (e) {
-      debugPrint(e.toString());
-    }
+    var newMessage = await messageRepository.getBotMessage(input);
+    debugPrint(newMessage.toString());
+    _messages.add(
+        Message(message: newMessage.message, messageType: MessageType.bot));
+    emit(GptMessageSuccess(
+      messages: _messages,
+    ));
   }
 
-  void getBotMessage() {}
+
 }

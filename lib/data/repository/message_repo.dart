@@ -9,7 +9,7 @@ class MessageRepository {
   
   Future<Message> getBotMessage(String userMessage) async {
     final String rawBotMessage = await api.complete(userMessage);
-    final Message message = Message.fromJson(rawBotMessage, MessageType.bot);
+    final Message message = Message.fromJson(rawBotMessage.split("\n").last, MessageType.bot);
     return message;
   }
 }

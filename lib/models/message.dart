@@ -42,7 +42,7 @@ class Message {
 
   String toJson() => json.encode(toMap());
 
-  factory Message.fromJson(String source, MessageType messageType) => Message.fromMap(json.decode(source),  messageType);
+  factory Message.fromJson(String source, MessageType messageType) => Message.fromMap({'message' : source},  messageType);
 
   @override
   bool operator ==(Object other) {

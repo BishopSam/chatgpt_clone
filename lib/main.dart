@@ -41,6 +41,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Voice Chat GPT',
       theme: ThemeData.dark(),
+      debugShowCheckedModeBanner: false,
       home: const HomeScreen(),
     );
   }
