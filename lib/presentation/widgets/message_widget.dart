@@ -1,3 +1,4 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/message.dart';
@@ -49,6 +50,7 @@ class UserMessageWidget extends StatelessWidget {
             child: SingleChildScrollView(
               child: Text(
                 message,
+
                 maxLines: 10,
                 // overflow: TextOverflow.fade,
                 style: Theme.of(context).textTheme.bodyMedium,
@@ -61,12 +63,22 @@ class UserMessageWidget extends StatelessWidget {
   }
 }
 
-class BotMessageWidget extends StatelessWidget {
+class BotMessageWidget extends StatefulWidget {
   const BotMessageWidget({super.key, required this.message});
   final String message;
 
   @override
+  State<BotMessageWidget> createState() => _BotMessageWidgetState();
+}
+
+class _BotMessageWidgetState extends State<BotMessageWidget>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
   Widget build(BuildContext context) {
+    super.build;
     return Container(
       color: Colors.grey[800],
       padding: const EdgeInsets.all(8),
@@ -94,12 +106,14 @@ class BotMessageWidget extends StatelessWidget {
           ),
           Expanded(
             child: SingleChildScrollView(
-              child: Text(
-                message,
-                // maxLines: 10,
-                // overflow: TextOverflow.fade,
-                style: Theme.of(context).textTheme.bodyMedium,
-              ),
+              child:
+                  AnimatedTextKit(isRepeatingAnimation: false, animatedTexts: [
+                TyperAnimatedText(
+                  widget.message,
+                  speed: const Duration(milliseconds: 60),
+                  textStyle: Theme.of(context).textTheme.bodyMedium,
+                )
+              ]),
             ),
           ),
         ],

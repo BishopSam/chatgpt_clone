@@ -1,10 +1,10 @@
 import 'package:chatgpt_clone/data/repository/message_repo.dart';
 import 'package:chatgpt_clone/data/repository/open_ai_api.dart';
-import 'package:chatgpt_clone/logic/cubit/cubit/gpt_cubit.dart';
-import 'package:chatgpt_clone/logic/cubit/speech_cubit.dart';
+import 'package:chatgpt_clone/logic/cubit/gpt_cubit.dart';
 import 'package:chatgpt_clone/presentation/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 
@@ -13,21 +13,11 @@ import 'data/token.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Permission.microphone.request();
-  runApp(MultiBlocProvider(
-    providers: [
-      BlocProvider(
-        create: (context) => SpeechCubit(
-          stt: SpeechToText(),
-        ),
-      ),
-      BlocProvider(
-        create: (context) => GptCubit(
-          messageRepository: MessageRepository(
-            api: OpenAiCompletionApi(apiKey),
-          ),
-        ),
-      ),
-    ],
+  runApp(BlocProvider(
+    create: (context) => GptCubit(
+      messageRepository: MessageRepository(api: OpenAiCompletionApi(apiKey)),
+      stt: SpeechToText(),
+    ),
     child: const MyApp(),
   ));
 }
@@ -40,7 +30,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Voice Chat GPT',
-      theme: ThemeData.dark(),
+      theme: ThemeData.dark().copyWith(
+          textTheme: TextTheme(
+              bodyMedium: GoogleFonts.montserrat(fontSize: 14),
+              titleLarge: GoogleFonts.montserrat(
+                  fontSize: 22, fontWeight: FontWeight.bold))),
       debugShowCheckedModeBanner: false,
       home: const HomeScreen(),
     );
