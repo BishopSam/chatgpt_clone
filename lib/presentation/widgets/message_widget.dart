@@ -1,11 +1,16 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:chatgpt_clone/logic/cubit/gpt_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../models/message.dart';
 
 class MessageWidget extends StatelessWidget {
-  const MessageWidget(
-      {super.key, required this.message, required this.isLoading});
+  const MessageWidget({
+    super.key,
+    required this.message,
+    required this.isLoading,
+  });
   final Message? message;
   final bool isLoading;
 
@@ -64,7 +69,10 @@ class UserMessageWidget extends StatelessWidget {
 }
 
 class BotMessageWidget extends StatefulWidget {
-  const BotMessageWidget({super.key, required this.message});
+  const BotMessageWidget({
+    super.key,
+    required this.message,
+  });
   final String message;
 
   @override
@@ -75,6 +83,11 @@ class _BotMessageWidgetState extends State<BotMessageWidget>
     with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
+  @override
+  void initState() {
+    super.initState();
+    context.read<GptCubit>().speak(widget.message);
+  }
 
   @override
   Widget build(BuildContext context) {

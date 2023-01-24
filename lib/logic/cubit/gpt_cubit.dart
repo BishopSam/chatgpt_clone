@@ -5,15 +5,18 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:speech_to_text/speech_to_text.dart';
+import 'package:text_to_speech/text_to_speech.dart';
 
 part 'gpt_state.dart';
 
 class GptCubit extends Cubit<GptState> {
   final MessageRepository messageRepository;
   final SpeechToText stt;
+  final TextToSpeech tts;
   GptCubit({
     required this.messageRepository,
     required this.stt,
+    required this.tts,
   }) : super(const GptInitial());
 
   final List<Message> _messages = [];
@@ -58,5 +61,21 @@ class GptCubit extends Cubit<GptState> {
         Message(message: newMessage.message, messageType: MessageType.bot));
     emit(GptMessageSuccess(
         messages: _messages, decodedWords: state.decodedWords));
+  }
+
+  void speak(String? message) async {
+    if (message != null) {
+    
+        tts.setVolume(0.7);
+       
+        emit(GptSpeaking(
+            messages: state.messages, decodedWords: state.decodedWords));
+        final isDoneSpeaking = await tts.speak(message);
+        if (isDoneSpeaking == true) {
+          emit(GptDoneSpeaking(
+              messages: state.messages, decodedWords: state.decodedWords));
+        }
+      }
+    
   }
 }

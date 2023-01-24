@@ -25,7 +25,8 @@ class GptErrorState extends GptState {
 }
 
 class GptMessageSuccess extends GptState {
-  const GptMessageSuccess({required super.messages, required super.decodedWords});
+  const GptMessageSuccess(
+      {required super.messages, required super.decodedWords});
 }
 
 class GptSpeechEnabled extends GptState {
@@ -33,5 +34,14 @@ class GptSpeechEnabled extends GptState {
 }
 
 class GptSpeechDecoded extends GptState {
-  const GptSpeechDecoded({required super.messages, required super.decodedWords});
+  const GptSpeechDecoded(
+      {required super.messages, required super.decodedWords});
+}
+
+class GptSpeaking extends GptState {
+  const GptSpeaking({required super.messages, required super.decodedWords});
+}
+
+class GptDoneSpeaking extends GptState {
+  const GptDoneSpeaking({required super.messages, required super.decodedWords});
 }

@@ -73,7 +73,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         }
                         return MessageWidget(
                             message: state.messages?[index],
-                            isLoading: isLoading);
+                            isLoading: isLoading,
+                           
+                            );
                       },
                     ),
                   ),

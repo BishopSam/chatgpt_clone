@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:speech_to_text/speech_to_text.dart';
+import 'package:text_to_speech/text_to_speech.dart';
 
 import 'data/token.dart';
 
@@ -17,6 +18,7 @@ void main() async {
     create: (context) => GptCubit(
       messageRepository: MessageRepository(api: OpenAiCompletionApi(apiKey)),
       stt: SpeechToText(),
+      tts: TextToSpeech(),
     ),
     child: const MyApp(),
   ));
