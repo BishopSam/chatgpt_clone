@@ -1,16 +1,32 @@
-# chatgpt_clone
+# voice Chat GPT
 
-A new Flutter project.
+An app that decodes user's questions through their voices and uses Chat-GPT's api to provide a coressponding answer and is also inturn read out by a bot's voice using text to speech.
 
-## Getting Started
+Table of contents
+=================
+<!--ts-->
+   * [Project Structure](#project-structure)
+   * [Tools Used](#tools-used)
+   * [Features](#features)
+      * [Authentication](#authentication)
+      * [Destinations](#destinations)
+      * [Bookings](#bookings)
+   * [Tests](#tests)
+   * [Todos](#todos)
+   * [App Demo](#app-demo)
+   
+<!--te-->
 
-This project is a starting point for a Flutter application.
+Project Structure
+=================
+Since this app is a one screen mobile application, I made use of a simple folder structure that allows for proper separation of concerns. 
 
-A few resources to get you started if this is your first Flutter project:
+Below is a table showing what each folder does.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+| Folders | Description |
+| ------- | ------- |
+| presentaton | All `widget` and `bloc/cubit` classes go in here |
+| models | All `model` classes go in here |
+| data | Api and repository classes go in here |
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+

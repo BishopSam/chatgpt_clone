@@ -1,5 +1,5 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:chatgpt_clone/logic/cubit/gpt_cubit.dart';
+import 'package:chatgpt_clone/presentation/logic/cubit/gpt_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

@@ -1,5 +1,5 @@
-import 'package:chatgpt_clone/logic/cubit/gpt_cubit.dart';
 import 'package:chatgpt_clone/models/message.dart';
+import 'package:chatgpt_clone/presentation/logic/cubit/gpt_cubit.dart';
 import 'package:chatgpt_clone/presentation/widgets/dialog.dart';
 import 'package:chatgpt_clone/presentation/widgets/message_widget.dart';
 import 'package:flutter/material.dart';

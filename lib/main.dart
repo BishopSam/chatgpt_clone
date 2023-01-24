@@ -1,7 +1,7 @@
 import 'package:chatgpt_clone/data/repository/message_repo.dart';
 import 'package:chatgpt_clone/data/repository/open_ai_api.dart';
-import 'package:chatgpt_clone/logic/cubit/gpt_cubit.dart';
 import 'package:chatgpt_clone/presentation/home_screen.dart';
+import 'package:chatgpt_clone/presentation/logic/cubit/gpt_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
