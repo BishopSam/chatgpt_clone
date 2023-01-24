@@ -33,7 +33,7 @@ class GptCubit extends Cubit<GptState> {
           emit(GptSpeechDecoded(
               messages: _messages,
               decodedWords: result.toFinal().recognizedWords));
-        } else {}
+        }
       },
     );
   }
@@ -54,28 +54,23 @@ class GptCubit extends Cubit<GptState> {
     var input = message.message;
     emit(
         GptLoading(messages: state.messages, decodedWords: state.decodedWords));
-
+    try {
+      
     var newMessage = await messageRepository.getBotMessage(input);
     debugPrint(newMessage.toString());
     _messages.add(
         Message(message: newMessage.message, messageType: MessageType.bot));
     emit(GptMessageSuccess(
         messages: _messages, decodedWords: state.decodedWords));
+    } catch (e) {
+      emit(GptErrorState(messages: state.messages, decodedWords: state.decodedWords));
+    }
   }
 
   void speak(String? message) async {
     if (message != null) {
-    
-        tts.setVolume(0.7);
-       
-        emit(GptSpeaking(
-            messages: state.messages, decodedWords: state.decodedWords));
-        final isDoneSpeaking = await tts.speak(message);
-        if (isDoneSpeaking == true) {
-          emit(GptDoneSpeaking(
-              messages: state.messages, decodedWords: state.decodedWords));
-        }
-      }
-    
+      tts.setVolume(0.7);
+      await tts.speak(message);
+    }
   }
 }

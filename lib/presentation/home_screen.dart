@@ -1,5 +1,6 @@
 import 'package:chatgpt_clone/logic/cubit/gpt_cubit.dart';
 import 'package:chatgpt_clone/models/message.dart';
+import 'package:chatgpt_clone/presentation/widgets/dialog.dart';
 import 'package:chatgpt_clone/presentation/widgets/message_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -53,6 +54,14 @@ class _HomeScreenState extends State<HomeScreen> {
                       messageType: MessageType.user));
                 }
               }
+
+              if (state is GptErrorState) {
+                showCustomDialog(
+                    context: context,
+                    title: "Error",
+                    content: "Something went wrong",
+                    optionsBuilder: () => {"ok": true});
+              }
             },
             builder: (context, state) {
               debugPrint(state.messages?.toString());
@@ -72,10 +81,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           _scrollDown();
                         }
                         return MessageWidget(
-                            message: state.messages?[index],
-                            isLoading: isLoading,
-                           
-                            );
+                          message: state.messages?[index],
+                          isLoading: isLoading,
+                        );
                       },
                     ),
                   ),

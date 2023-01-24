@@ -38,10 +38,4 @@ class GptSpeechDecoded extends GptState {
       {required super.messages, required super.decodedWords});
 }
 
-class GptSpeaking extends GptState {
-  const GptSpeaking({required super.messages, required super.decodedWords});
-}
 
-class GptDoneSpeaking extends GptState {
-  const GptDoneSpeaking({required super.messages, required super.decodedWords});
-}
