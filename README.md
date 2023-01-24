@@ -7,12 +7,6 @@ Table of contents
 <!--ts-->
    * [Project Structure](#project-structure)
    * [Tools Used](#tools-used)
-   * [Features](#features)
-      * [Authentication](#authentication)
-      * [Destinations](#destinations)
-      * [Bookings](#bookings)
-   * [Tests](#tests)
-   * [Todos](#todos)
    * [App Demo](#app-demo)
    
 <!--te-->
@@ -28,5 +22,24 @@ Below is a table showing what each folder does.
 | presentaton | All `widget` and `bloc/cubit` classes go in here |
 | models | All `model` classes go in here |
 | data | Api and repository classes go in here |
+
+
+Tools Used
+==========
+
+| Tools | Usage |
+| ------- | ------- |
+| Bloc | State Management |
+| SpeechToText | Decoding user input |
+| TextToSpeech | Outputing ai response |
+| OpenAi Completion Api Endpoint | Backend Service |
+
+To make use of the api endpoint you need an api key, which you can find [here](https://beta.openai.com)
+
+App Demo
+========
+
+The link to this projects apk file will be uploaded here.
+
 
 
