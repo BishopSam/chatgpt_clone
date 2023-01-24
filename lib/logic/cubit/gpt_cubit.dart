@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
 import 'package:chatgpt_clone/data/repository/message_repo.dart';
 import 'package:chatgpt_clone/models/message.dart';
@@ -55,15 +57,22 @@ class GptCubit extends Cubit<GptState> {
     emit(
         GptLoading(messages: state.messages, decodedWords: state.decodedWords));
     try {
-      
-    var newMessage = await messageRepository.getBotMessage(input);
-    debugPrint(newMessage.toString());
-    _messages.add(
-        Message(message: newMessage.message, messageType: MessageType.bot));
-    emit(GptMessageSuccess(
-        messages: _messages, decodedWords: state.decodedWords));
+      var newMessage = await messageRepository.getBotMessage(input);
+      debugPrint(newMessage.toString());
+      _messages.add(
+          Message(message: newMessage.message, messageType: MessageType.bot));
+      emit(GptMessageSuccess(
+          messages: _messages, decodedWords: state.decodedWords));
+    } on SocketException catch (_) {
+      emit(GptErrorState(
+          messages: state.messages,
+          decodedWords: state.decodedWords,
+          errorMessage: "No Internet Connection"));
     } catch (e) {
-      emit(GptErrorState(messages: state.messages, decodedWords: state.decodedWords));
+      emit(GptErrorState(
+          messages: state.messages,
+          decodedWords: state.decodedWords,
+          errorMessage: "Something went wrong"));
     }
   }
 

@@ -1,4 +1,6 @@
+import 'package:chatgpt_clone/logic/cubit/gpt_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 typedef DialogOptionsBuilder<T> = Map<String, T?> Function();
 
@@ -26,9 +28,14 @@ Future<T?> showCustomDialog<T>({
               }
             },
             child: Text(optionsTitle),
+            style: TextButton.styleFrom(
+              foregroundColor: Colors.white,
+            ),
           );
         }).toList(),
       );
     },
   );
 }
+
+

@@ -43,6 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
         child: Padding(
           padding: const EdgeInsets.only(bottom: 8.0),
           child: BlocConsumer<GptCubit, GptState>(
@@ -59,7 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 showCustomDialog(
                     context: context,
                     title: "Error",
-                    content: "Something went wrong",
+                    content: state.errorMessage ?? "Something went wrong",
                     optionsBuilder: () => {"ok": true});
               }
             },
