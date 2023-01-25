@@ -1,4 +1,4 @@
-# voice Chat GPT
+# Voice Chat GPT
 
 An app that decodes user's questions through their voices and uses Chat-GPT's api to provide a coressponding answer and is also inturn read out by a bot's voice using text to speech.
 
