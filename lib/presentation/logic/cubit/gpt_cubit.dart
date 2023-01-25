@@ -25,19 +25,28 @@ class GptCubit extends Cubit<GptState> {
 
   void decodeWords() async {
     emit(GptLoading(messages: state.messages, decodedWords: null));
-    await stt.listen(
-      onResult: (result) {
-        if (result.finalResult) {
-          final userMessage = Message(
-              message: result.toFinal().recognizedWords,
-              messageType: MessageType.user);
-          _messages.add(userMessage);
-          emit(GptSpeechDecoded(
-              messages: _messages,
-              decodedWords: result.toFinal().recognizedWords));
-        }
-      },
-    );
+    try {
+      await stt.listen(
+        onResult: (result) {
+          if (result.finalResult) {
+            final userMessage = Message(
+                message: result.toFinal().recognizedWords,
+                messageType: MessageType.user);
+            _messages.add(userMessage);
+            emit(GptSpeechDecoded(
+                messages: _messages,
+                decodedWords: result.toFinal().recognizedWords));
+          }
+        },
+      );
+    } catch (e) {
+      emit(
+        GptErrorState(
+            messages: state.messages,
+            decodedWords: state.decodedWords,
+            errorMessage: "Couldnt catch that, try again!"),
+      );
+    }
   }
 
   void enableSpeech() async {
